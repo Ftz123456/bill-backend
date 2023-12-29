@@ -24,6 +24,11 @@ public interface UserRepository extends BaseMapper<User> {
             "join sys_role r on r.id = sur.role_id ${ew.customSqlSegment}")
     Page<UserVo> page(Page pageDTO, @Param("ew")  QueryWrapper<User> wrapper);
 
-    @Select("select u.* from sys_user u where u.username = ${username}")
-    User findByUsername(String username);
+//    @Select("select u.*, sr.*, sra.* from sys_user u " +
+//            "left join sys_role sr on u.role_id = sr.id " +
+//            "left join sys_role_authorities sra on u.role_id = sra.role_id " +
+//            "where u.username = #{username}")
+//    User findByUsername(String username);
+    User selectByUsername(String username);
+
 }
