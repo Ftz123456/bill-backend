@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,6 +32,7 @@ public class SpringSecurityConfig {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final SessionRegistry sessionRegistry;
+    private final SecurityBeanConfig securityBeanConfig;
 
     @Resource
     private final DataSource dataSource;
@@ -41,30 +44,32 @@ public class SpringSecurityConfig {
         return tokenRepository;
     }
 
-//    @Bean
-//    public JsonAuthenticationFilter jsonAuthenticationFilter(AuthenticationManager authenticationManager) throws Exception {
-//        JsonAuthenticationFilter filter = new JsonAuthenticationFilter();
-//        filter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
-//        filter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
-//        filter.setFilterProcessesUrl("/api/rest/user/login");
-//        filter.setAuthenticationManager(authenticationManager);
-//        return filter;
-//    }
+    @Bean
+    AuthenticationManager authenticationManager() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(securityBeanConfig.passwordEncoder());
+        return new ProviderManager(daoAuthenticationProvider);
+    }
+
+    @Bean
+    public JsonAuthenticationFilter jsonAuthenticationFilter() throws Exception {
+        JsonAuthenticationFilter filter = new JsonAuthenticationFilter();
+        filter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+        filter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+        filter.setFilterProcessesUrl("/api/rest/user/login");
+        filter.setAuthenticationManager(authenticationManager());
+        return filter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // 允许用户json登录
-        JsonAuthenticationFilter jsonAuthenticationFilter = new JsonAuthenticationFilter();
-        jsonAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
-        jsonAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
-        jsonAuthenticationFilter.setFilterProcessesUrl("/api/rest/user/login");
-        jsonAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
 
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/api/rest/user/me").permitAll()
                         .requestMatchers("/api/**").authenticated())
-                .addFilterAt(jsonAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(jsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form
                     .loginPage("/user/login")
                     .loginProcessingUrl("/api/rest/user/login")
