@@ -2,10 +2,7 @@ package com.zsc.edu.bill.modules.system.service;
 
 
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
-import com.zsc.edu.bill.modules.system.dto.UserCreateDto;
-import com.zsc.edu.bill.modules.system.dto.UserSelfUpdateDto;
-import com.zsc.edu.bill.modules.system.dto.UserSelfUpdatePasswordDto;
-import com.zsc.edu.bill.modules.system.dto.UserUpdateDto;
+import com.zsc.edu.bill.modules.system.dto.*;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.zsc.edu.bill.modules.system.query.UserQuery;
 import com.zsc.edu.bill.modules.system.vo.UserVo;
@@ -38,4 +35,10 @@ public interface UserService extends IService<User> {
     Boolean toggle(Long id);
 
     Page<UserVo> page(UserQuery query, PageDTO pageDTO);
+
+    Boolean register(UserCreateDto dto);
+
+    Page<UserVo> page2(UserQuery query, PageDTO<User> page);
+
+    PageDto<UserVo> queryUserPage(UserQuery query);
 }

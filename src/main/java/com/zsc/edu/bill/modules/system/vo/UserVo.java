@@ -6,10 +6,49 @@ import java.time.LocalDateTime;
 
 @Data
 public class UserVo {
-    String username;
-    String phone;
-    String email;
-    Boolean enabled;
+    /**
+     * 用户名
+     */
+    public String username;
+
+    /**
+     * 手机号码
+     */
+    public String phone;
+
+    /**
+     * 电子邮件
+     */
+    public String email;
+
+    /**
+     * 启用状态
+     */
+    public Boolean enabled;
+    /**
+     *
+     *昵称
+     * */
+    public String nickName;
+
+    /**
+     * 所属部门ID
+     */
+    public Long deptId;
+
+    /**
+     * 角色ID
+     */
+    public Long roleId;
+    /**
+     * 头像
+     */
+    public String avatar;
+    /**
+     * 地址
+     */
+    public String address;
+
     LocalDateTime createTime;
     LocalDateTime updateTime;
 }

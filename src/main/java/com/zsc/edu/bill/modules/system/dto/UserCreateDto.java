@@ -56,7 +56,7 @@ public class UserCreateDto {
     /**
      * 用户身份集合
      */
-    @NotEmpty(message = "角色不能为空")
+    //@NotEmpty(message = "角色不能为空")
     public Set<Long> roleIds;
 
     /**

@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import java.util.Set;
-
 /**
  * 用户
  *
@@ -45,7 +43,11 @@ public class User extends BaseEntity {
      * 启用状态
      */
     public Boolean enabled = true;
-
+/**
+ *
+ *昵称
+ * */
+    public String nickName;
 
     /**
      * 所属部门ID
@@ -56,6 +58,14 @@ public class User extends BaseEntity {
      * 角色ID
      */
     public Long roleId;
+    /**
+     * 头像
+     */
+    public String avatar;
+    /**
+     * 地址
+     */
+    public String address;
 
     /**
      * 所属部门

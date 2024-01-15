@@ -1,12 +1,11 @@
 package com.zsc.edu.bill.modules.system.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsc.edu.bill.exception.ConstraintException;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
-import com.zsc.edu.bill.modules.system.dto.UserCreateDto;
-import com.zsc.edu.bill.modules.system.dto.UserSelfUpdateDto;
-import com.zsc.edu.bill.modules.system.dto.UserSelfUpdatePasswordDto;
-import com.zsc.edu.bill.modules.system.dto.UserUpdateDto;
+import com.zsc.edu.bill.modules.system.dto.*;
+import com.zsc.edu.bill.modules.system.entity.Role;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.zsc.edu.bill.modules.system.query.UserQuery;
 import com.zsc.edu.bill.modules.system.repo.UserRepository;
@@ -21,6 +20,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserRepository, User> implements UserService {
 
     private final PasswordEncoder passwordEncoder;
+    private final RoleServiceImpl roleService;
 
 
     @Override
@@ -76,11 +78,62 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
     public Page<UserVo> page(UserQuery query, PageDTO pageDTO) {
         //2.构造连表查询的动态SQL代码⽚段
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.like(!query.getUsername().isBlank(), "u.username", query.getUsername())
-                .in(query.deptIds != null && !query.deptIds.isEmpty(), "d.id", query.getDeptIds())
-                .in(query.roleIds != null && !query.roleIds.isEmpty(), "r.id", query.getRoleIds());
+//        wrapper.like(!query.getUsername().isBlank(), "u.username", query.getUsername())
+//        wrapper
+//                .in(query.deptIds != null && !query.deptIds.isEmpty(), "d.id", query.getDeptIds())
+//                .in(query.roleId != null && !query.roleId.isEmpty(), "r.id", query.getRoleId());
         //3.调⽤Mapper层连表查询SQL语句，并把动态查询的代码⽚段传递给Mapper接⼝
         return this.baseMapper.page(pageDTO, wrapper);
+    }
+
+    @Override
+    public Boolean register(UserCreateDto dto) {
+        User user = new User();
+        BeanUtils.copyProperties(dto, user);
+        if (count(new LambdaQueryWrapper<User>().eq(User::getPhone, dto.getPhone())) > 0) {
+            throw new ConstraintException("phone", dto.phone, "手机号已存在");
+        }
+        if (count(new LambdaQueryWrapper<User>().eq(User::getEmail, dto.getEmail())) > 0) {
+            throw new ConstraintException("email", dto.email, "邮箱地址已存在");
+        }
+        user.setPassword(passwordEncoder.encode(dto.password));
+        user.setRoleId(roleService.getOne(new LambdaQueryWrapper<Role>().eq(Role::getName, "普通用户")).getId());
+        return save(user);
+    }
+
+    @Override
+    public Page<UserVo> page2(UserQuery query, PageDTO<User> page) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        return this.baseMapper.page(page, wrapper);
+    }
+
+    @Override
+    public PageDto<UserVo>  queryUserPage(UserQuery query) {
+        String username = query.getUsername();
+        String phone = query.getPhone();
+        String email = query.getEmail();
+        Page<User> page = Page.of(query.getPage(), query.getSize());
+        if (query.getOrderBy()!=null) {
+            page.addOrder(new OrderItem().setColumn(query.getOrderBy()).setAsc(query.getAsc()));
+        } else {
+         page.addOrder(new OrderItem().setColumn("id").setAsc(false));
+        }
+        Page<User> p = lambdaQuery()
+                .like(username != null && !username.isBlank(), User::getUsername, username)
+                .like(phone != null && !phone.isBlank(), User::getPhone, phone)
+                .like(email != null && !email.isBlank(), User::getEmail, email)
+                .page(page);
+        PageDto<UserVo> dto = new PageDto<>();
+        dto.setTotal(p.getTotal());
+        dto.setPages((int) p.getPages());
+        List<UserVo> list = p.getRecords().stream().map(user -> {
+            UserVo vo = new UserVo();
+            BeanUtils.copyProperties(user, vo);
+            return vo;
+        }).toList();
+        dto.setList(list);
+
+        return dto;
     }
 
     @Override

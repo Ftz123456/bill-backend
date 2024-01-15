@@ -17,6 +17,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import jakarta.annotation.Resource;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+
 import javax.sql.DataSource;
 
 /**
@@ -59,6 +61,7 @@ public class SpringSecurityConfig {
         filter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
         filter.setFilterProcessesUrl("/api/rest/user/login");
         filter.setAuthenticationManager(authenticationManager());
+        filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
         return filter;
     }
 
@@ -67,7 +70,8 @@ public class SpringSecurityConfig {
 
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/rest/user/me").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/rest/user/me","/api/rest/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/rest/user/login","/api/rest/user/register").permitAll()
                         .requestMatchers("/api/**").authenticated())
                 .addFilterAt(jsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form
@@ -86,7 +90,7 @@ public class SpringSecurityConfig {
                 .rememberMe(rememberMe -> rememberMe
                         .userDetailsService(userDetailsService)
                         .tokenRepository(persistentTokenRepository()))
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/internal/**", "/api/rest/user/logout"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/internal/**", "/api/rest/user/logout","/api/rest/user/register"))
                 .sessionManagement(session -> session
                         .maximumSessions(3)
                         .sessionRegistry(sessionRegistry)

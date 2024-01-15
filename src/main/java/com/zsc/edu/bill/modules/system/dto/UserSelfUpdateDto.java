@@ -28,6 +28,18 @@ public class UserSelfUpdateDto {
      */
     @Email(message = "电子邮箱格式不对")
     public String email;
+    /**
+     * 昵称
+     * */
+    public String nickName;
+    /**
+     * 头像
+     * */
+    public String avatar;
+    /**
+     * 地址
+     * */
+    public String address;
 
 
 }

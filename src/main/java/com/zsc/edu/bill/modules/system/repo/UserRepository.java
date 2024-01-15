@@ -1,5 +1,7 @@
 package com.zsc.edu.bill.modules.system.repo;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -31,4 +33,5 @@ public interface UserRepository extends BaseMapper<User> {
 //    User findByUsername(String username);
     User selectByUsername(String username);
 
+    Page<UserVo> page2(PageDTO<User> page, LambdaQueryWrapper<User> wrapper);
 }

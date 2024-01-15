@@ -9,6 +9,9 @@
         <result column="dept_id" jdbcType="BIGINT" property="deptId"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="nick_name" jdbcType="INTEGER" property="nickName"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <collection property="role" ofType="com.zsc.edu.bill.modules.system.entity.Role">
             <id column="id" jdbcType="BIGINT" property="id"/>

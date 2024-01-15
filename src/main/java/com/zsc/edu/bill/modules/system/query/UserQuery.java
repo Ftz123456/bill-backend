@@ -1,13 +1,10 @@
 package com.zsc.edu.bill.modules.system.query;
 
-import com.zsc.edu.bill.modules.system.entity.User;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -15,10 +12,11 @@ import java.util.Set;
  *
  * @author harry yao
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserQuery {
+public class UserQuery extends PageQuery{
 
     /**
      * 用户名
@@ -43,20 +41,21 @@ public class UserQuery {
     /**
      * 角色集合
      */
-    public Set<Long> roleIds;
+    public Long roleId;
 
     /**
      * 部门集合
      */
     public Set<Long> deptIds;
+
     
-    public LambdaQueryWrapper<User> wrapper() {
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(StringUtils.hasText(this.username), User::getUsername, this.username);
-        queryWrapper.eq(StringUtils.hasText(this.phone), User::getPhone, this.phone);
-        queryWrapper.eq(StringUtils.hasText(this.email), User::getEmail, this.email);
-        queryWrapper.eq(Objects.nonNull(this.enable), User::getEnabled, this.enable);
-        return queryWrapper;
-    }
+//    public LambdaQueryWrapper<User> wrapper() {
+//        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(StringUtils.hasText(this.username), User::getUsername, this.username);
+//        queryWrapper.eq(StringUtils.hasText(this.phone), User::getPhone, this.phone);
+//        queryWrapper.eq(StringUtils.hasText(this.email), User::getEmail, this.email);
+//        queryWrapper.eq(Objects.nonNull(this.enable), User::getEnabled, this.enable);
+//        return queryWrapper;
+//    }
 
 }

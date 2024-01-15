@@ -2,10 +2,7 @@ package com.zsc.edu.bill.modules.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
-import com.zsc.edu.bill.modules.system.dto.UserCreateDto;
-import com.zsc.edu.bill.modules.system.dto.UserSelfUpdateDto;
-import com.zsc.edu.bill.modules.system.dto.UserSelfUpdatePasswordDto;
-import com.zsc.edu.bill.modules.system.dto.UserUpdateDto;
+import com.zsc.edu.bill.modules.system.dto.*;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.zsc.edu.bill.modules.system.query.UserQuery;
 import com.zsc.edu.bill.modules.system.service.DeptService;
@@ -105,6 +102,18 @@ public class UserController {
     public Page<UserVo> query(UserQuery query, PageDTO<User> page) {
         return service.page(query, page);
     }
+    /**
+     * 分页查询用户信息2 hasAuthority('USER_QUERY')
+     *
+     * @param query    查询表单
+     * @return 分页用户信息
+     */
+
+    @GetMapping("query")
+    @PreAuthorize("hasAuthority('USER_QUERY')")
+    public PageDto<UserVo> query2(UserQuery query) {
+        return service.queryUserPage(query);
+    }
 
     /**
      * 新建用户 hasAuthority('USER_CREATE')
@@ -116,6 +125,15 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_CREATE')")
     public Boolean create(@RequestBody UserCreateDto dto) {
         return service.create(dto);
+    }
+    /**
+     * 注册用户
+     * @param dto 表单数据
+     * @return Boolean
+     */
+    @PostMapping("register")
+    public Boolean register(@RequestBody UserCreateDto dto) {
+        return service.register(dto);
     }
 
     /**
