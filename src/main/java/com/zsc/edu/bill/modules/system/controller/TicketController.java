@@ -1,6 +1,19 @@
 package com.zsc.edu.bill.modules.system.controller;
 
 
+import com.zsc.edu.bill.modules.system.dto.PageDto;
+import com.zsc.edu.bill.modules.system.entity.Ticket;
+import com.zsc.edu.bill.modules.system.query.TicketQuery;
+import com.zsc.edu.bill.modules.system.service.TicketService;
+import com.zsc.edu.bill.modules.system.vo.TicketVo;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 /**
  * @author ftz
  * 票据Controller
