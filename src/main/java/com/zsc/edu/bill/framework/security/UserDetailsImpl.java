@@ -34,7 +34,6 @@ public class UserDetailsImpl implements UserDetails {
     public Set<Authority> authorities;
 
     public static UserDetailsImpl from(User user) {
-        Set<Authority> authorities = user.role.authorities;
         return new UserDetailsImpl(
                 user.id,
                 user.username,
@@ -42,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.enabled,
                 user.dept,
                 user.role,
-                authorities
+                user.role.authorities
         );
     }
 

@@ -24,8 +24,6 @@ import java.time.LocalDateTime;
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
-
     private final ObjectMapper objectMapper;
 
     @Override

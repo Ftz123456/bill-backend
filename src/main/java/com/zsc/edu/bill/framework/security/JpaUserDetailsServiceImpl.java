@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author harry_yao
@@ -31,10 +32,10 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.selectByUsername(username);
 
-        List<RoleAuthority> authorities= roleAuthoritiesReposity.selectByRoleId(user.getRoleId());
-        Set<Authority> authorities1=new HashSet<>();
-        authorities.stream().forEach(authority ->authorities1.add(Authority.valueOf(authority.getAuthority())));
-        user.role.authorities=authorities1;
+        List<RoleAuthority> roleAuthorities= roleAuthoritiesReposity.selectByRoleId(user.getRoleId());
+        user.role.authorities=roleAuthorities.stream()
+                .map(i -> Authority.valueOf(i.getAuthority()))
+                .collect(Collectors.toSet());
 
 
 
@@ -42,7 +43,7 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
 //            new UsernameNotFoundException("用户 '" + username + "' 不存在!")
 //        );
 //        user.getIdentities().stream().filter(identity -> identity.role.enableState == EnableState.启用)
-//            .forEach(identity -> Hibernate.initialize(identity.role.authorities));
+//            .forEach(identity -> Hibernate.initialize(identity.role.roleAuthorities));
         return UserDetailsImpl.from(user);
     }
 }

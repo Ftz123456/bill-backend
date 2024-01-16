@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * @author ftz
@@ -56,16 +57,19 @@ public class BillQuery {
      */
     private String companyName;
 
-
+    /**
+     * 拼接查询条件
+     * @return
+     */
     public LambdaQueryWrapper<Bill> wrapper() {
         LambdaQueryWrapper<Bill> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.hasText(this.uuid), Bill::getUuid, this.uuid);
-        queryWrapper.eq(StringUtils.hasText(String.valueOf(this.userId)), Bill::getUserId, this.userId);
-        queryWrapper.eq(StringUtils.hasText(this.title), Bill::getTitle, this.title);
-        queryWrapper.eq(StringUtils.hasText(String.valueOf(this.money)), Bill::getMoney, this.money);
-        queryWrapper.eq(StringUtils.hasText(String.valueOf(this.status)), Bill::getStatus, this.status);
-        queryWrapper.eq(StringUtils.hasText(String.valueOf(this.type)), Bill::getType, this.type);
-        queryWrapper.eq(StringUtils.hasText(this.companyName), Bill::getCompanyName, this.companyName);
+        queryWrapper.eq(Objects.nonNull(this.userId), Bill::getUserId, this.userId);
+        queryWrapper.like(StringUtils.hasText(this.title), Bill::getTitle, this.title);
+        queryWrapper.eq(Objects.nonNull(this.money), Bill::getMoney, this.money);
+        queryWrapper.eq(Objects.nonNull(this.status), Bill::getStatus, this.status);
+        queryWrapper.like(Objects.nonNull(this.type), Bill::getType, this.type);
+        queryWrapper.like(StringUtils.hasText(this.companyName), Bill::getCompanyName, this.companyName);
         return queryWrapper;
     }
 }
