@@ -1,6 +1,7 @@
 package com.zsc.edu.bill.modules.bills.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zsc.edu.bill.modules.bills.dto.BillDto;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
 import com.zsc.edu.bill.modules.bills.service.BillService;
@@ -34,17 +35,17 @@ public class BillController {
        * @return ture/false
        */
     @PostMapping
-    public Boolean create(Bill bill){
-        return service.save(bill);
+    public Boolean create(@RequestBody BillDto dto){
+        return service.create(dto);
     }
 
     /**
      * 更新票据
      * @return ture/false
      */
-    @PatchMapping
-    public Boolean update(Bill bill){
-        return service.updateById(bill);
+    @PatchMapping("/{id}")
+    public Boolean update(@RequestBody BillDto dto, @PathVariable("id") Long id){
+        return service.update(dto, id);
     }
 
     /**
