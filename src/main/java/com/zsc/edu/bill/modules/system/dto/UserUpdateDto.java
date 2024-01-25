@@ -46,6 +46,18 @@ public class UserUpdateDto {
      */
     @NotNull(message = "部门不能为空")
     public Long deptId;
+    /**
+     * 昵称
+     * */
+    public String nickName;
+    /**
+     * 头像
+     * */
+    public String avatar;
+    /**
+     * 地址
+     * */
+    public String address;
 
     /**
      * 用户身份集合

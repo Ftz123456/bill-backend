@@ -172,5 +172,13 @@ public class UserController {
     public Boolean toggle(@PathVariable("id") Long id) {
         return service.toggle(id);
     }
+    /**
+     * 删除用户 hasAuthority('USER_DELETE')
+     * */
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('USER_DELETE')")
+    public Boolean delete(@PathVariable("id") Long id) {
+        return service.removeById(id);
+    }
 
 }

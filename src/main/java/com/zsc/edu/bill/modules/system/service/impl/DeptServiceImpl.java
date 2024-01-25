@@ -45,6 +45,13 @@ public class DeptServiceImpl extends ServiceImpl<DeptRepository, Dept> implement
         return update(dto.updateWrapper(id));
     }
 
+    @Override
+    public Boolean toggle(Long id) {
+        Dept dept = getById(id);
+        dept.setEnabled(!dept.getEnabled());
+        return updateById(dept);
+    }
+
 //    @Override
 //    public Dept listTree(Long deptId) {
 //        Dept rootDept;

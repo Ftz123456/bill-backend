@@ -30,7 +30,7 @@ public class DeptQuery {
 
     public LambdaQueryWrapper<Dept> wrapper() {
         LambdaQueryWrapper<Dept> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(StringUtils.hasText(this.name), Dept::getName, this.name);
+        queryWrapper.like(StringUtils.hasText(this.name), Dept::getName, this.name);
         return queryWrapper;
     }
 

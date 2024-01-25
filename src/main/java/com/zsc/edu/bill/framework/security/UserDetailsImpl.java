@@ -33,6 +33,7 @@ public class UserDetailsImpl implements UserDetails {
     public Role role;
     public Set<Authority> authorities;
 
+
     public static UserDetailsImpl from(User user) {
         return new UserDetailsImpl(
                 user.id,

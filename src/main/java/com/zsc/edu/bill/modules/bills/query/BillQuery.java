@@ -2,11 +2,8 @@ package com.zsc.edu.bill.modules.bills.query;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
-import com.zsc.edu.bill.modules.system.entity.Ticket;
-import com.zsc.edu.bill.modules.system.query.PageQuery;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
@@ -50,7 +47,7 @@ public class BillQuery {
     /**
      * 票据类型
      */
-    private String type;
+    private Bill.billType type;
 
     /**
      * 客户公司名称 票据对应的企业名称

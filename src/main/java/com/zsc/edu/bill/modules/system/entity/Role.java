@@ -35,5 +35,6 @@ public class Role extends BaseEntity {
     @TableField(exist = false)
     public Set<Authority> authorities;
 
+
 }
 

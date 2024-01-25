@@ -29,6 +29,8 @@ public interface DeptService extends IService<Dept> {
      */
     Boolean edit(DeptDto dto, Long id);
 
+    Boolean toggle(Long id);
+
     /**
      * 生成部门树结构
      * @param id

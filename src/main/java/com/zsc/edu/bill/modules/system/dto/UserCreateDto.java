@@ -58,6 +58,18 @@ public class UserCreateDto {
      */
     //@NotEmpty(message = "角色不能为空")
     public Set<Long> roleIds;
+    /**
+     * 昵称
+     * */
+    public String nickName;
+    /**
+     * 头像
+     * */
+    public String avatar;
+    /**
+     * 地址
+     * */
+    public String address;
 
     /**
      * 备注说明

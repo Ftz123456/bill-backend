@@ -1,16 +1,13 @@
 package com.zsc.edu.bill.modules.bills.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.zsc.edu.bill.modules.system.entity.BaseEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -56,7 +53,8 @@ public class Bill extends BaseEntity {
     /**
      * 票据类型
      */
-    private String type;
+    private billType type;
+
 
     /**
      * 联系方式email邮箱
@@ -88,6 +86,36 @@ public class Bill extends BaseEntity {
 
         public static Status get(String name) {
             for (Status item : values()) {
+                if (item.getName() .equals(name)) {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+    }
+    @Getter
+    public enum billType {
+        Bank(0,"bank"),
+        Tax(1,"tax"),
+        Other(2,"other");
+
+
+
+
+        @EnumValue
+        private final int code;
+
+        @JsonValue
+        private final String name;
+
+        billType(int code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public static billType get(String name) {
+            for (billType item : values()) {
                 if (item.getName() .equals(name)) {
                     return item;
                 }

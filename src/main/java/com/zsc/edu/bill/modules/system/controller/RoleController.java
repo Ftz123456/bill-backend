@@ -24,6 +24,7 @@ public class RoleController {
 
     private final RoleService service;
 
+
     /**
      * 返回所有角色列表 hasAuthority('ROLE_QUERY')
      *
@@ -44,8 +45,8 @@ public class RoleController {
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_CREATE')")
     public Boolean create(@RequestBody RoleDto dto) {
-        Role role = roleMapper.toEntity(dto);
-        return service.save(role);
+        Role role= service.create(dto);
+        return role != null;
     }
 
     /**
@@ -88,12 +89,13 @@ public class RoleController {
     }
 
     /**
-     * 查询角色详情 hasAuthority('ROLE_QUERY')
+     * 删除角色 hasAuthority('ROLE_DELETE')
      *
      * @param id ID
      * @return Role 更新后的角色
      */
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('ROLE_DELETE')")
     public Boolean delete(@PathVariable Long id) {
         return service.delete(id);
     }
