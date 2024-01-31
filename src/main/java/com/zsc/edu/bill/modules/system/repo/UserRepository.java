@@ -32,6 +32,4 @@ public interface UserRepository extends BaseMapper<User> {
 //            "where u.username = #{username}")
 //    User findByUsername(String username);
     User selectByUsername(String username);
-
-    Page<UserVo> page2(PageDTO<User> page, LambdaQueryWrapper<User> wrapper);
 }

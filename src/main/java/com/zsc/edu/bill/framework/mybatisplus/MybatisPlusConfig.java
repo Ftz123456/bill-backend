@@ -18,6 +18,14 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+//        // 添加数据权限插件
+//       MyDataPermissionInterceptor dataPermissionInterceptor = new MyDataPermissionInterceptor();
+//        // 添加自定义的数据权限处理器
+//        dataPermissionInterceptor.setDataPermissionHandler(new MyDataPermissionHandler());
+//        interceptor.addInnerInterceptor(dataPermissionInterceptor);
+
+
         return interceptor;
     }
+
 }

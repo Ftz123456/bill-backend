@@ -2,12 +2,13 @@ package com.zsc.edu.bill.modules.bills.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsc.edu.bill.modules.bills.dto.BillDto;
+import com.zsc.edu.bill.modules.audited.audit.Audit;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
 import com.zsc.edu.bill.modules.bills.service.BillService;
+import com.zsc.edu.bill.modules.bills.vo.BillVo;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -68,11 +69,19 @@ public class BillController {
 
     /**
      * 获取票据详情
+     *
      * @return 票据详情
      */
     @GetMapping("{id}")
-    public Bill detail(@PathVariable Long id){
-        return service.getById(id);
+    public BillVo detail(@PathVariable Long id){
+        return service.findById(id);
+    }
+    /*
+    *审核票据
+    **/
+    @PatchMapping("audit/{id}")
+    public Boolean audit(@PathVariable Long id, @RequestBody Audit audit){
+        return service.audit(id, audit);
     }
 
 }

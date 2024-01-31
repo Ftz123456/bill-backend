@@ -23,7 +23,7 @@ public class Bill extends BaseEntity {
     /**
      * 票据uuid 提供给前端显示用
      */
-    private UUID uuid;
+    private String uuid;
 
     /**
      * 用户id 票据创建者id

@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.validation.constraints.*;
-import java.util.Set;
 
 /**
  * 用户新建Dto
@@ -57,7 +56,7 @@ public class UserCreateDto {
      * 用户身份集合
      */
     //@NotEmpty(message = "角色不能为空")
-    public Set<Long> roleIds;
+    public Long roleId;
     /**
      * 昵称
      * */

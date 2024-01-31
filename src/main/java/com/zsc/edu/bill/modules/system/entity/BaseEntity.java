@@ -33,13 +33,23 @@ public class BaseEntity implements Serializable {
      */
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     public LocalDateTime createTime;
+/*
+* 创建人
+* */
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    public String createBy;
 
     /**
      * 更新时间
      */
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     public LocalDateTime updateTime;
-
+/*
+* 更新人
+*
+* */
+    @TableField(value = "update_by", fill = FieldFill.INSERT_UPDATE)
+    public String updateBy;
     @Override
     public boolean equals(Object o) {
         if (this == o) {

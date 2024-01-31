@@ -1,6 +1,5 @@
 package com.zsc.edu.bill.modules.bills.dto;
 
-import com.zsc.edu.bill.modules.bills.entity.Bill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

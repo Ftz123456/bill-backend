@@ -22,7 +22,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         UserDetailsImpl userInfo = SecurityUtil.getUserInfo();
 
         this.strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
-        this.strictInsertFill(metaObject, "createBy", userInfo::getUsername, String.class);
+        this.strictInsertFill(metaObject, "createdBy", userInfo::getUsername, String.class);
 
     }
 
@@ -30,7 +30,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         UserDetailsImpl userInfo = SecurityUtil.getUserInfo();
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
-        this.strictUpdateFill(metaObject, "updateBy", userInfo::getUsername, String.class);
+        this.strictUpdateFill(metaObject, "updatedBy", userInfo::getUsername, String.class);
 
     }
 

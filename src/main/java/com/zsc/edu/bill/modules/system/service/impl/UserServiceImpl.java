@@ -97,7 +97,12 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
             throw new ConstraintException("email", dto.email, "邮箱地址已存在");
         }
         user.setPassword(passwordEncoder.encode(dto.password));
-        user.setRoleId(roleService.getOne(new LambdaQueryWrapper<Role>().eq(Role::getName, "普通用户")).getId());
+        if (dto.getRoleId()== null||dto.getRoleId() ==' ') {
+            user.setRoleId(roleService.getOne(new LambdaQueryWrapper<Role>().eq(Role::getName, "普通用户")).getId());
+        }else {
+            user.setRoleId(dto.getRoleId());
+        }
+
         return save(user);
     }
 
@@ -122,6 +127,7 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
                 .like(username != null && !username.isBlank(), User::getUsername, username)
                 .like(phone != null && !phone.isBlank(), User::getPhone, phone)
                 .like(email != null && !email.isBlank(), User::getEmail, email)
+                .eq(query.getEnable() != null, User::getEnabled, query.getEnable())
                 .page(page);
         PageDto<UserVo> dto = new PageDto<>();
         dto.setTotal(p.getTotal());

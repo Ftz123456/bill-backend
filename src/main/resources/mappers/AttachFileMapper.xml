@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsc.edu.bill.modules.file.mapper.AttachFileMapper">
+
+    <resultMap id="BaseResultMap" type="com.zsc.edu.bill.modules.file.entity.AttachFile">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="saveFilename" column="save_filename" jdbcType="VARCHAR"/>
+            <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
+            <result property="originFilename" column="origin_filename" jdbcType="VARCHAR"/>
+            <result property="fileSize" column="file_size" jdbcType="BIGINT"/>
+            <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
+            <result property="extendName" column="extend_name" jdbcType="VARCHAR"/>
+            <result property="ticketId" column="ticket_id" jdbcType="BIGINT"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="fileUrl" column="file_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,save_filename,uuid,
+        origin_filename,file_size,file_type,
+        extend_name,ticket_id,create_by,
+        create_time,update_by,update_time,
+        file_url
+    </sql>
+</mapper>

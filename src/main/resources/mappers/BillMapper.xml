@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsc.edu.bill.modules.bills.repo.BillRepository">
+
+    <resultMap id="BaseResultMap" type="com.zsc.edu.bill.modules.bills.entity.Bill">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="body" column="body" jdbcType="VARCHAR"/>
+        <result property="money" column="money" jdbcType="DECIMAL"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="type" column="type" jdbcType="TINYINT"/>
+        <result property="contactEmail" column="contact_email" jdbcType="VARCHAR"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="com.zsc.edu.bill.modules.bills.vo.BillVo">
+        <collection property="bill" ofType="com.zsc.edu.bill.modules.bills.entity.Bill">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="body" column="body" jdbcType="VARCHAR"/>
+        <result property="money" column="money" jdbcType="DECIMAL"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="type" column="type" jdbcType="TINYINT"/>
+        <result property="contactEmail" column="contact_email" jdbcType="VARCHAR"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="audit" ofType="com.zsc.edu.bill.modules.audited.audit.Audit">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="ticketId" column="ticket_id" jdbcType="BIGINT"/>
+            <result property="auditorId" column="auditor_id" jdbcType="BIGINT"/>
+            <result property="result" column="result" jdbcType="TINYINT"/>
+            <result property="comment" column="comment" jdbcType="VARCHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,uuid,user_id,
+        title,body,money,
+        status,type,contact_email,
+        company_name,create_by,create_time,
+        update_by,update_time,remark
+    </sql>
+    <select id="findById" parameterType="java.lang.Long"  resultMap="BaseResultMap1">
+        SELECT
+            *
+        FROM
+            bill AS a
+                LEFT JOIN ( audit AS b ) ON a.id = b.ticket_id
+        WHERE
+            a.id  = ${id}
+
+    </select>
+</mapper>
