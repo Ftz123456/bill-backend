@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zsc.edu.bill.modules.system.repo.RoleAuthoritiesReposity">
-    <resultMap id="BaseResultMap" type="com.zsc.edu.bill.modules.system.entity.RoleAuthority">
-        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
-        <result column="authority" jdbcType="BIGINT" property="authority"/>
-    </resultMap>
+<mapper namespace="com.zsc.edu.bill.modules.system.repo.RoleAuthoritiesRepository">
+<!--    <resultMap id="BaseResultMap" type="com.zsc.edu.bill.modules.system.entity.RoleAuthority">-->
+<!--        <result column="role_id" jdbcType="BIGINT" property="roleId"/>-->
+<!--        <result column="authority" jdbcType="BIGINT" property="authority"/>-->
+<!--    </resultMap>-->
 
-    <select id="selectByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select
-        *
-        from sys_role_authorities a
-        where a.role_id = #{roleId}
-    </select>
+<!--    <select id="selectByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">-->
+<!--        select * from sys_role_authorities sra where sra.role_id = #{roleId}-->
+<!--    </select>-->
 
 
 

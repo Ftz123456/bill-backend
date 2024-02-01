@@ -3,9 +3,8 @@ package com.zsc.edu.bill.service;
 import com.zsc.edu.bill.modules.system.entity.Authority;
 import com.zsc.edu.bill.modules.system.entity.RoleAuthority;
 import com.zsc.edu.bill.modules.system.entity.User;
-import com.zsc.edu.bill.modules.system.repo.RoleAuthoritiesReposity;
+import com.zsc.edu.bill.modules.system.repo.RoleAuthoritiesRepository;
 import com.zsc.edu.bill.modules.system.repo.UserRepository;
-import com.zsc.edu.bill.modules.system.service.UserService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,13 +21,13 @@ import java.util.Set;
 @SpringBootTest
 public class UserServiceTest {
     @Resource
-    private   RoleAuthoritiesReposity roleAuthoritiesReposity;
+    private RoleAuthoritiesRepository roleAuthoritiesRepository;
     @Resource
     private  UserRepository userRepository;
     @Test
     void test() {
         User user=userRepository.selectByUsername("admin");
-        List<RoleAuthority> authorities= roleAuthoritiesReposity.selectByRoleId(user.getRoleId());
+        List<RoleAuthority> authorities= roleAuthoritiesRepository.selectByRoleId(user.getRoleId());
         Set<Authority> authorities1=new HashSet<>();
         authorities.stream().forEach(authority ->authorities1.add(Authority.valueOf(authority.getAuthority())));
         user.role.authorities=authorities1;

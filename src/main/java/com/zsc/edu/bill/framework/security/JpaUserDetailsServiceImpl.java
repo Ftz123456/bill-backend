@@ -3,7 +3,7 @@ package com.zsc.edu.bill.framework.security;
 import com.zsc.edu.bill.modules.system.entity.Authority;
 import com.zsc.edu.bill.modules.system.entity.RoleAuthority;
 import com.zsc.edu.bill.modules.system.entity.User;
-import com.zsc.edu.bill.modules.system.repo.RoleAuthoritiesReposity;
+import com.zsc.edu.bill.modules.system.repo.RoleAuthoritiesRepository;
 import com.zsc.edu.bill.modules.system.repo.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -25,14 +23,14 @@ import java.util.stream.Collectors;
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepo;
-    private  final RoleAuthoritiesReposity roleAuthoritiesReposity;
+    private  final RoleAuthoritiesRepository roleAuthoritiesRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.selectByUsername(username);
 
-        List<RoleAuthority> roleAuthorities= roleAuthoritiesReposity.selectByRoleId(user.getRoleId());
+        List<RoleAuthority> roleAuthorities= roleAuthoritiesRepository.selectByRoleId(user.getRoleId());
         user.role.authorities=roleAuthorities.stream()
                 .map(i -> Authority.valueOf(i.getAuthority()))
                 .collect(Collectors.toSet());
