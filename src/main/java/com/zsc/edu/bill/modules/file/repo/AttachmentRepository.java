@@ -1,7 +1,6 @@
 package com.zsc.edu.bill.modules.file.repo;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zsc.edu.bill.modules.file.entity.AttachFile;
 import com.zsc.edu.bill.modules.file.entity.Attachment;
 
 /**

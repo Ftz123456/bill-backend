@@ -1,6 +1,7 @@
 package com.zsc.edu.bill.modules.system.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
 import com.zsc.edu.bill.modules.system.dto.*;
 import com.zsc.edu.bill.modules.system.entity.User;
@@ -38,7 +39,5 @@ public interface UserService extends IService<User> {
 
     Boolean register(UserCreateDto dto);
 
-    Page<UserVo> page2(UserQuery query, PageDTO<User> page);
-
-    PageDto<UserVo> queryUserPage(UserQuery query);
+    UserVo detail(Long id);
 }

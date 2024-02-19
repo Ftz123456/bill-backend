@@ -3,6 +3,8 @@ package com.zsc.edu.bill.modules.system.service;
 import com.zsc.edu.bill.modules.system.entity.RoleAuthority;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色权限表 服务类
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RoleAuthService extends IService<RoleAuthority> {
     boolean removeByRoleId(Long id);
+
+    List<String> getAuthorityByUserId(Long id);
 }

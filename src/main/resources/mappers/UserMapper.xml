@@ -17,6 +17,18 @@
             <id column="id" jdbcType="BIGINT" property="id"/>
             <result column="name" jdbcType="VARCHAR" property="name"/>
         </collection>
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="com.zsc.edu.bill.modules.system.vo.UserVo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
+        <result column="dept_id" jdbcType="BIGINT" property="deptId"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="nick_name" jdbcType="INTEGER" property="nickName"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -29,6 +41,18 @@
         from sys_user
                  left join study.sys_role sr on sys_user.role_id = sr.id
         where username = #{username,jdbcType=VARCHAR}
+    </select>
+    <select id="page" resultType="com.zsc.edu.bill.modules.system.vo.UserVo" resultMap="BaseResultMap1">
+        select
+            *
+        from sys_user
+        ${ew.customSqlSegment}
+    </select>
+    <select id="detail" resultType="com.zsc.edu.bill.modules.system.vo.UserVo" resultMap="BaseResultMap1">
+        select
+            *
+        from sys_user
+        where id = #{id}
     </select>
 
 </mapper>

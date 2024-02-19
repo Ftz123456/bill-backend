@@ -7,10 +7,21 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class RoleAuthServiceImpl extends ServiceImpl<RoleAuthoritiesRepository, RoleAuthority> implements RoleAuthService {
     @Override
     public boolean removeByRoleId(Long roleId) {
         return remove(new LambdaQueryWrapper<RoleAuthority>().eq(RoleAuthority::getRoleId, roleId));
+    }
+
+    @Override
+    public List<String> getAuthorityByUserId(Long id) {
+        List<RoleAuthority> list = list(new LambdaQueryWrapper<RoleAuthority>().eq(RoleAuthority::getRoleId, id));
+        return list(new LambdaQueryWrapper<RoleAuthority>().eq(RoleAuthority::getRoleId, id)).stream().map(RoleAuthority::getAuthority).collect(Collectors.toList());
+
+
     }
 }

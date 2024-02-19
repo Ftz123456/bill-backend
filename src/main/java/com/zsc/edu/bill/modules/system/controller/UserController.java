@@ -1,14 +1,19 @@
 package com.zsc.edu.bill.modules.system.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
 import com.zsc.edu.bill.modules.system.dto.*;
+import com.zsc.edu.bill.modules.system.entity.Authority;
+import com.zsc.edu.bill.modules.system.entity.Role;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.zsc.edu.bill.modules.system.query.UserQuery;
 import com.zsc.edu.bill.modules.system.service.DeptService;
+import com.zsc.edu.bill.modules.system.service.RoleAuthService;
 import com.zsc.edu.bill.modules.system.service.RoleService;
 import com.zsc.edu.bill.modules.system.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zsc.edu.bill.modules.system.vo.UserDetail;
 import com.zsc.edu.bill.modules.system.vo.UserVo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +21,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -34,6 +40,7 @@ public class UserController {
     private final RoleService roleService;
 
     private final DeptService deptService;
+    private final RoleAuthService roleAuthService;
 
     /**
      * 登录前，获取csrfToken信息
@@ -58,10 +65,17 @@ public class UserController {
      * @return 用户信息
      */
     @GetMapping("self")
-    public User selfDetail(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public UserDetail selfDetail(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        UserDetail userDetail = new UserDetail();
         User user = service.selfDetail(userDetails);
         user.dept = deptService.getById(user.deptId);
-        return user;
+       Role role= roleService.getOne(new QueryWrapper<Role>().eq("id",user.roleId));
+        userDetail.setPermissions(role.getName());
+       userDetail.setAuthorities(roleAuthService.getAuthorityByUserId(role.getId()));
+        userDetail.setUser(user);
+
+
+        return userDetail;
     }
 
     /**
@@ -102,18 +116,8 @@ public class UserController {
     public Page<UserVo> query(UserQuery query, PageDTO<User> page) {
         return service.page(query, page);
     }
-    /**
-     * 分页查询用户信息2 hasAuthority('USER_QUERY')
-     *
-     * @param query    查询表单
-     * @return 分页用户信息
-     */
 
-    @GetMapping("query")
-    @PreAuthorize("hasAuthority('USER_QUERY')")
-    public PageDto<UserVo> query2(UserQuery query) {
-        return service.queryUserPage(query);
-    }
+
 
     /**
      * 新建用户 hasAuthority('USER_CREATE')
@@ -179,6 +183,20 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER_DELETE')")
     public Boolean delete(@PathVariable("id") Long id) {
         return service.removeById(id);
+    }
+    /**
+     * 根据部门ID查询用户
+     * */
+    @GetMapping("dept/{id}")
+    public Collection<User> listByDept(@PathVariable("id") Long id) {
+        return service.list(new QueryWrapper<User>().eq("dept_id", id));
+    }
+    /**
+     * 根据ID查询用户
+     * */
+    @GetMapping("{id}")
+    public UserVo detail(@PathVariable("id") Long id) {
+        return service.detail(id);
     }
 
 }

@@ -1,10 +1,13 @@
 package com.zsc.edu.bill.modules.bills.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zsc.edu.bill.modules.audited.dto.Auditdto;
 import com.zsc.edu.bill.modules.bills.dto.BillDto;
-import com.zsc.edu.bill.modules.audited.audit.Audit;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
+import com.zsc.edu.bill.modules.bills.query.BillQuery;
 import com.zsc.edu.bill.modules.bills.vo.BillVo;
 
 /**
@@ -20,5 +23,8 @@ public interface BillService extends IService<Bill> {
 
     BillVo findById(Long id);
 
-    Boolean audit(Long id, Audit audit);
+    Boolean audit(Long id, Auditdto audit);
+
+
+    Page<Bill> auditPage(Page<Bill> page, BillQuery query);
 }

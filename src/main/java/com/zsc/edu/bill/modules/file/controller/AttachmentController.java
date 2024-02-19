@@ -59,8 +59,8 @@ public class AttachmentController {
         @PathVariable("id") String id
     ) {
         Attachment.Wrapper wrapper = service.loadAsWrapper(id);
-        if (wrapper.attachment.filename != null) {
-            ContentDisposition contentDisposition = ContentDisposition.builder("attachment").filename(wrapper.attachment.filename, StandardCharsets.UTF_8).build();
+        if (wrapper.attachment.fileName != null) {
+            ContentDisposition contentDisposition = ContentDisposition.builder("attachment").filename(wrapper.attachment.fileName, StandardCharsets.UTF_8).build();
             return ResponseEntity.ok().
                 header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString()).
                 header(HttpHeaders.CONTENT_TYPE, wrapper.attachment.mimeType).
@@ -68,5 +68,13 @@ public class AttachmentController {
         }
         return ResponseEntity.ok(wrapper.resource);
     }
+    /**
+     * 根据附件ID获取附件信息
+     * */
+    @GetMapping("find/{id}")
+    public Attachment getAttachmentInfo(@PathVariable("id") String id) {
+        return service.getById(id);
+    }
+
 
 }

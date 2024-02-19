@@ -33,11 +33,13 @@ public class Attachment implements Serializable {
     /**
      * 文件名
      */
-    public String filename;
+
+    public String fileName;
 
     /**
      * 附件作用类型
      */
+
     public String mimeType;
 
     /**
@@ -50,6 +52,7 @@ public class Attachment implements Serializable {
     /**
      * 文件上传时间
      */
+
     public LocalDateTime uploadTime;
 
     /**
@@ -59,9 +62,9 @@ public class Attachment implements Serializable {
     @TableField(exist = false)
     public String url;
 
-    public Attachment(String id, String filename, String mimeType, Type type, LocalDateTime uploadTime) {
+    public Attachment(String id, String fileName, String mimeType, Type type, LocalDateTime uploadTime) {
         this.id = id;
-        this.filename = filename;
+        this.fileName = fileName;
         this.mimeType = mimeType;
         // this.type = type;
         this.uploadTime = uploadTime;

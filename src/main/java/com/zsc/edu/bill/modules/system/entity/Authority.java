@@ -30,7 +30,17 @@ public enum Authority implements GrantedAuthority {
     USER_QUERY,
     USER_CREATE,
     USER_UPDATE,
-    USER_DELETE;
+    USER_DELETE,
+    /**
+     * 票据管理
+     * */
+    BILL_QUERY,
+    BILL_CREATE,
+    BILL_UPDATE,
+    BILL_AUDIT,
+    BILL_CHOOSE_AUDITOR,
+    BILL_DELETE;
+
 
     @Override
     public String getAuthority() {

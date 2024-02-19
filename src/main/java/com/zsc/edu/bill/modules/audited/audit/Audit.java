@@ -7,6 +7,7 @@ import com.zsc.edu.bill.modules.system.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author ftz
@@ -14,8 +15,9 @@ import lombok.Getter;
  * 描述: TODO
  */
 @EqualsAndHashCode(callSuper = true)
-@TableName(value ="Audit")
-@Data
+@TableName(value ="audit")
+@Getter
+@Setter
 public class Audit extends BaseEntity {
     /*
     * 票据Id

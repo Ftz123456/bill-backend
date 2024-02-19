@@ -20,6 +20,7 @@
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="attachId" column="attach_id" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="BaseResultMap1" type="com.zsc.edu.bill.modules.bills.vo.BillVo">
         <collection property="bill" ofType="com.zsc.edu.bill.modules.bills.entity.Bill">
@@ -38,9 +39,10 @@
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="attachId" column="attach_id" jdbcType="VARCHAR"/>
         </collection>
-        <collection property="audit" ofType="com.zsc.edu.bill.modules.audited.audit.Audit">
-            <id property="id" column="id" jdbcType="BIGINT"/>
+        <collection property="audit" ofType="com.zsc.edu.bill.modules.audited.vo.auditVo">
+            <id property="auditId" column="id" jdbcType="BIGINT"/>
             <result property="ticketId" column="ticket_id" jdbcType="BIGINT"/>
             <result property="auditorId" column="auditor_id" jdbcType="BIGINT"/>
             <result property="result" column="result" jdbcType="TINYINT"/>

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsc.edu.bill.exception.ConstraintException;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
 import com.zsc.edu.bill.modules.system.dto.*;
+import com.zsc.edu.bill.modules.system.entity.Dept;
 import com.zsc.edu.bill.modules.system.entity.Role;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.zsc.edu.bill.modules.system.query.UserQuery;
@@ -36,6 +37,7 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
 
     private final PasswordEncoder passwordEncoder;
     private final RoleServiceImpl roleService;
+    private final DeptServiceImpl deptService;
 
 
     @Override
@@ -80,9 +82,15 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
         QueryWrapper<User> wrapper = new QueryWrapper<>();
 //        wrapper.like(!query.getUsername().isBlank(), "u.username", query.getUsername())
 //        wrapper
-//                .in(query.deptIds != null && !query.deptIds.isEmpty(), "d.id", query.getDeptIds())
+//                .in(query.deptId != null && !query.deptId.isEmpty(), "d.id", query.getDeptId())
 //                .in(query.roleId != null && !query.roleId.isEmpty(), "r.id", query.getRoleId());
         //3.调⽤Mapper层连表查询SQL语句，并把动态查询的代码⽚段传递给Mapper接⼝
+        wrapper.eq(query.getDeptId() != null&&query.deptId!=' ', "dept_id", query.getDeptId());
+        wrapper.eq(query.getRoleId() != null&&query.roleId!=' ', "role_id", query.getRoleId());
+        wrapper.eq(query.getEnable() != null, "enabled", query.getEnable());
+        wrapper.like(query.getUsername() != null, "username", query.getUsername());
+        wrapper.like(query.getPhone() != null, "phone", query.getPhone());
+        wrapper.like(query.getEmail() != null, "email", query.getEmail());
         return this.baseMapper.page(pageDTO, wrapper);
     }
 
@@ -98,49 +106,25 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
         }
         user.setPassword(passwordEncoder.encode(dto.password));
         if (dto.getRoleId()== null||dto.getRoleId() ==' ') {
-            user.setRoleId(roleService.getOne(new LambdaQueryWrapper<Role>().eq(Role::getName, "普通用户")).getId());
+            user.setRoleId(roleService.getOne(new LambdaQueryWrapper<Role>().eq(Role::getName, "user")).getId());
         }else {
             user.setRoleId(dto.getRoleId());
         }
+        /**
+         * 如果没有传入部门id，则默认为普通用户部门
+         * */
+        if (dto.getDeptId()== null||dto.getDeptId() ==' ') {
+            user.setDeptId(deptService.getOne(new LambdaQueryWrapper<Dept>().eq(Dept::getName,"普通用户部门")).getId());}
 
         return save(user);
     }
 
     @Override
-    public Page<UserVo> page2(UserQuery query, PageDTO<User> page) {
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        return this.baseMapper.page(page, wrapper);
+    public UserVo detail(Long id) {
+
+        return this.baseMapper.detail(id);
     }
 
-    @Override
-    public PageDto<UserVo>  queryUserPage(UserQuery query) {
-        String username = query.getUsername();
-        String phone = query.getPhone();
-        String email = query.getEmail();
-        Page<User> page = Page.of(query.getPage(), query.getSize());
-        if (query.getOrderBy()!=null) {
-            page.addOrder(new OrderItem().setColumn(query.getOrderBy()).setAsc(query.getAsc()));
-        } else {
-         page.addOrder(new OrderItem().setColumn("id").setAsc(false));
-        }
-        Page<User> p = lambdaQuery()
-                .like(username != null && !username.isBlank(), User::getUsername, username)
-                .like(phone != null && !phone.isBlank(), User::getPhone, phone)
-                .like(email != null && !email.isBlank(), User::getEmail, email)
-                .eq(query.getEnable() != null, User::getEnabled, query.getEnable())
-                .page(page);
-        PageDto<UserVo> dto = new PageDto<>();
-        dto.setTotal(p.getTotal());
-        dto.setPages((int) p.getPages());
-        List<UserVo> list = p.getRecords().stream().map(user -> {
-            UserVo vo = new UserVo();
-            BeanUtils.copyProperties(user, vo);
-            return vo;
-        }).toList();
-        dto.setList(list);
-
-        return dto;
-    }
 
     @Override
     public User selfDetail(UserDetailsImpl userDetails) {

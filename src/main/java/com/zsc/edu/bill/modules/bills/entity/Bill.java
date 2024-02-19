@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 /**
  * 票据表
@@ -65,6 +64,11 @@ public class Bill extends BaseEntity {
      * 客户公司名称 票据对应的企业名称
      */
     private String companyName;
+    /**
+     *附件id
+     */
+    private String attachId;
+
 
     @Getter
     public enum Status {
@@ -96,9 +100,9 @@ public class Bill extends BaseEntity {
     }
     @Getter
     public enum billType {
-        Bank(0,"bank"),
-        Tax(1,"tax"),
-        Other(2,"other");
+        BANK(0,"银行支票"),
+        TAX(1,"税务支票"),
+        OTHER(2,"其他支票");
 
 
 

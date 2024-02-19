@@ -1,16 +1,16 @@
-package com.zsc.edu.bill.modules.audited.dto;
+package com.zsc.edu.bill.modules.audited.vo;
 
 import com.zsc.edu.bill.modules.audited.audit.Audit;
 import lombok.Data;
 
 /**
  * @author ftz
- * 创建时间:31/1/2024 下午6:47
- * 描述: TODO
+ * 创建时间:5/2/2024 下午3:24
+ * 描述:
  */
 @Data
-public class Auditdto {
-    private Long id;
+public class auditVo {
+    private Long auditId;
     /*
      * 票据Id
      * */
@@ -26,5 +26,6 @@ public class Auditdto {
     /*
      * 审核状态
      * */
-    private String result;
+    private Audit.Result result;
+    private String remark;
 }

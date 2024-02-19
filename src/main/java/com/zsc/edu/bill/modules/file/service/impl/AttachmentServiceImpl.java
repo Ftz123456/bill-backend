@@ -1,9 +1,13 @@
 package com.zsc.edu.bill.modules.file.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsc.edu.bill.framework.storage.StorageProperties;
 import com.zsc.edu.bill.framework.storage.exception.StorageFileEmptyException;
 import com.zsc.edu.bill.framework.storage.exception.StorageFileNotFoundException;
+import com.zsc.edu.bill.modules.bills.entity.Bill;
+import com.zsc.edu.bill.modules.bills.repo.BillRepository;
+import com.zsc.edu.bill.modules.bills.service.BillService;
 import com.zsc.edu.bill.modules.file.entity.Attachment;
 import com.zsc.edu.bill.modules.file.repo.AttachmentRepository;
 import com.zsc.edu.bill.modules.file.service.AttachmentService;
@@ -34,7 +38,7 @@ import java.util.List;
  * @author harry_yao
  */
 @Service
-public class AttachmentServiceImpl implements AttachmentService {
+public class AttachmentServiceImpl extends ServiceImpl<AttachmentRepository, Attachment> implements AttachmentService {
 
     final static int[] illegalChars = {34, 60, 62, 124, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 58, 42, 63, 92, 47};
 

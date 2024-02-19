@@ -13,7 +13,4 @@ import lombok.Data;
 public class BillVo {
     Bill bill;
     Audit audit;
-
-
-
 }
