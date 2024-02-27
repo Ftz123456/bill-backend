@@ -11,7 +11,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import java.util.Set;
 
 /**
  * 用户更新Dto
@@ -63,7 +62,7 @@ public class UserUpdateDto {
      * 用户身份集合
      */
     @NotEmpty(message = "角色不能为空")
-    public Set<Long> roleIds;
+    public Long roleId;
 
     public String remark;
 

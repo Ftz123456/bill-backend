@@ -24,4 +24,6 @@ public interface RoleService extends IService<Role> {
     Boolean toggle(Long id);
 
     Boolean delete(Long id);
+
+    Boolean updateRole(RoleDto dto, Long id);
 }

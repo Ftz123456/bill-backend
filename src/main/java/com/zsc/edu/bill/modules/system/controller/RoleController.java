@@ -59,9 +59,9 @@ public class RoleController {
     @PatchMapping("{id}")
     @PreAuthorize("hasAuthority('ROLE_UPDATE')")
     public Boolean update(@RequestBody RoleDto dto, @PathVariable("id") Long id) {
-        Role role = roleMapper.toEntity(dto);
-        role.setId(id);
-        return service.updateById(role);
+//        Role role = roleMapper.toEntity(dto);
+//        role.setId(id);
+        return service.updateRole(dto, id);
     }
 
     /**

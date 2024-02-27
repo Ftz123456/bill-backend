@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,6 +67,20 @@ public class RoleServiceImpl extends ServiceImpl<RoleRepository, Role> implement
         // 删除角色权限关联关系
         roleAuthService.removeByRoleId(id);
         return removeById(id);
+    }
+
+    @Override
+    public Boolean updateRole(RoleDto dto, Long id) {
+        Role role =mapper.toEntity(dto);
+        role.setId(id);
+        if (dto.getAuthorities() != null && !dto.getAuthorities().isEmpty()) {
+            roleAuthService.remove(new LambdaQueryWrapper<RoleAuthority>().eq(RoleAuthority::getRoleId, id));
+            Set<Authority> authorities = new HashSet<>(dto.getAuthorities());
+            roleAuthService.saveBatch(authorities.stream().map(authority -> new RoleAuthority(id, authority.getAuthority())).collect(Collectors.toList()));
+
+        }
+           return updateById(role);
+
     }
 
     @Override
