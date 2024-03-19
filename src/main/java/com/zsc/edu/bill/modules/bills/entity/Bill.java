@@ -19,10 +19,6 @@ import java.math.BigDecimal;
 @Setter
 public class Bill extends BaseEntity {
 
-    /**
-     * 票据uuid 提供给前端显示用
-     */
-    private String uuid;
 
     /**
      * 用户id 票据创建者id
@@ -68,6 +64,14 @@ public class Bill extends BaseEntity {
      *附件id
      */
     private String attachId;
+    /*
+     *审核员id
+     * */
+    private Long auditorId;
+    /*
+     *审核意见
+     */
+    private String comment;
 
 
     @Getter
@@ -97,6 +101,16 @@ public class Bill extends BaseEntity {
             return null;
         }
 
+
+        public static Object getByCode(Integer status) {
+            for (Status item : values()) {
+                if (item.getCode() == status) {
+                    return item;
+                }
+            }
+            return null;
+
+        }
     }
     @Getter
     public enum billType {

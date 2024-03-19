@@ -1,6 +1,6 @@
 package com.zsc.edu.bill.modules.bills.dto;
 
-import com.zsc.edu.bill.modules.bills.entity.Bill;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +17,7 @@ public class BillDto {
     /**
      *userID
      * */
+    @NotNull
     private Long userId;
 
     /**
@@ -59,10 +60,15 @@ public class BillDto {
     /**
      * 审核人id
      */
+    @NotNull
     private Long auditorId;
     /**
      * 提交状态 true/false
      */
     private Boolean submit;
+    /*
+     *审核意见
+     */
+    private String comment;
 
 }

@@ -53,20 +53,24 @@ public class BillQuery {
      * 客户公司名称 票据对应的企业名称
      */
     private String companyName;
+    /**
+     * 审核人id
+     */
+    private Long auditorId;
 
     /**
      * 拼接查询条件
-     * @return
      */
     public LambdaQueryWrapper<Bill> wrapper() {
         LambdaQueryWrapper<Bill> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(StringUtils.hasText(this.uuid), Bill::getUuid, this.uuid);
         queryWrapper.eq(Objects.nonNull(this.userId), Bill::getUserId, this.userId);
         queryWrapper.like(StringUtils.hasText(this.title), Bill::getTitle, this.title);
         queryWrapper.eq(Objects.nonNull(this.money), Bill::getMoney, this.money);
         queryWrapper.eq(Objects.nonNull(this.status), Bill::getStatus, this.status);
         queryWrapper.eq(Objects.nonNull(this.type), Bill::getType, this.type);
+        queryWrapper.eq(Objects.nonNull(this.auditorId), Bill::getAuditorId, this.auditorId);
         queryWrapper.like(StringUtils.hasText(this.companyName), Bill::getCompanyName, this.companyName);
+        queryWrapper.orderByAsc(Bill::getStatus);
         return queryWrapper;
     }
 }

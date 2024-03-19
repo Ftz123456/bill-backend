@@ -1,19 +1,18 @@
 package com.zsc.edu.bill.modules.bills.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zsc.edu.bill.modules.audited.audit.Audit;
-import com.zsc.edu.bill.modules.audited.dto.Auditdto;
-import com.zsc.edu.bill.modules.audited.service.AuditService;
+import com.zsc.edu.bill.framework.security.SecurityUtil;
+import com.zsc.edu.bill.framework.security.UserDetailsImpl;
 import com.zsc.edu.bill.modules.bills.dto.BillDto;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
 import com.zsc.edu.bill.modules.bills.service.BillService;
-import com.zsc.edu.bill.modules.bills.vo.BillVo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ftz
@@ -27,7 +26,6 @@ import java.util.List;
 public class BillController {
 
     private final BillService service;
-    private final AuditService auditService;
     /**
      * 分页查询票据列表
      * @return 票据列表
@@ -37,6 +35,15 @@ public class BillController {
     public Page<Bill> list(BillQuery query, Page<Bill> page) {
         return service.page(page, query.wrapper());
     }
+    /**
+     * 首页数据
+     * <p>
+     * */
+    @GetMapping("home")
+    public List<Map<String, Object>> Home( BillDto dto){
+        return service.getHomes(dto);
+    }
+
       /**
        * 创建票据
        * @return ture/false
@@ -84,28 +91,16 @@ public class BillController {
      */
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('BILL_QUERY')")
-    public BillVo detail(@PathVariable Long id){
-        return service.findById(id);
+    public Bill detail(@PathVariable Long id){
+        return service.getById(id);
     }
-    /**
-     * 选择审核人
-     * */
-    @PatchMapping("choose/{id}")
-    @PreAuthorize("hasAuthority('BILL_CHOOSE_AUDITOR')")
-    public Boolean audit(@PathVariable Long id, @RequestBody Long auditorId){
-        Audit audit = new Audit();
-        audit.setAuditorId(auditorId);
-        audit.setTicketId(id);
-        return auditService.save(audit);
-    }
-
     /*
     *审核票据
     **/
-    @PatchMapping("audit/{id}")@PreAuthorize("hasAuthority('BILL_AUDIT')")
-
-    public Boolean audit(@PathVariable Long id, @RequestBody Auditdto audit){
-        return service.audit(id, audit);
+    @PatchMapping("audit/{id}")
+    @PreAuthorize("hasAuthority('BILL_AUDIT')")
+    public Boolean audit(@PathVariable Long id, @RequestBody BillDto dto){
+        return service.audit(id, dto);
     }
 
     /**
@@ -114,7 +109,10 @@ public class BillController {
     @GetMapping("audit/list")
     @PreAuthorize("hasAuthority('BILL_QUERY')")
     public Page<Bill> list1(BillQuery query, Page<Bill> page) {
+        UserDetailsImpl userInfo = SecurityUtil.getUserInfo();
+        query.setAuditorId(userInfo.getId());
         return service.auditPage(page, query);
     }
+
 
 }

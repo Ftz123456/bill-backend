@@ -1,6 +1,5 @@
 package com.zsc.edu.bill.modules.bills.vo;
 
-import com.zsc.edu.bill.modules.audited.audit.Audit;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
 import lombok.Data;
 
@@ -12,5 +11,5 @@ import lombok.Data;
 @Data
 public class BillVo {
     Bill bill;
-    Audit audit;
+
 }

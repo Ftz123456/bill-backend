@@ -1,14 +1,14 @@
 package com.zsc.edu.bill.modules.bills.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zsc.edu.bill.modules.audited.dto.Auditdto;
 import com.zsc.edu.bill.modules.bills.dto.BillDto;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
-import com.zsc.edu.bill.modules.bills.vo.BillVo;
+
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author fantianzhi
@@ -21,10 +21,12 @@ public interface BillService extends IService<Bill> {
 
     Boolean update(BillDto dto, Long id);
 
-    BillVo findById(Long id);
 
-    Boolean audit(Long id, Auditdto audit);
+
+    Boolean audit(Long id, BillDto dto);
 
 
     Page<Bill> auditPage(Page<Bill> page, BillQuery query);
+
+    List<Map<String, Object>> getHomes(BillDto dto);
 }
