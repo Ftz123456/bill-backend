@@ -8,6 +8,7 @@ import com.zsc.edu.bill.framework.security.SecurityUtil;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
 import com.zsc.edu.bill.modules.bills.dto.BillDto;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
+import com.zsc.edu.bill.modules.bills.entity.Home;
 import com.zsc.edu.bill.modules.bills.mapper.BillMapper;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
 import com.zsc.edu.bill.modules.bills.repo.BillRepository;
@@ -15,8 +16,6 @@ import com.zsc.edu.bill.modules.bills.service.BillService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -65,21 +64,56 @@ public class BillServiceImpl extends ServiceImpl<BillRepository, Bill> implement
     }
 
     @Override
-    public List<Map<String, Object>> getHomes(BillDto dto) {
+    public Home getHomes(BillDto dto) {
         QueryWrapper<Bill> queryWrapper = new QueryWrapper<>();
+        Home home = new Home();
         queryWrapper
                 .select("status as 'status',IFNULL(count(status),0) as 'number'")
                 .eq(Objects.nonNull(dto.getUserId()),"user_id",dto.getUserId())
                 .eq(Objects.nonNull(dto.getAuditorId()),"auditor_id",dto.getAuditorId())
                 .orderByAsc("status")
                 .groupBy("status");
-        List<Map<String, Object>> maps = listMaps(queryWrapper);
-        maps.forEach(map -> {
-            Integer status = (Integer) map.get("status");
-            map.put("status", Bill.Status.getByCode(status));
+//       listMaps(queryWrapper).forEach(map ->
+//               switch (map.get("status").toString()){
+//                   case "0":
+//                       home.setNotFiled((Integer) map.get("number"));
+//
+//                   case "1":
+//                       home.setNotAudit((Integer)map.get("number"));
+//
+//                   case "2":
+//                       home.setPass((Integer)map.get("number"));
+//
+//                   case "3":
+//                       home.setNotPass((Integer)map.get("number"));
+//
+//                   default:
+//                       throw new IllegalStateException("Unexpected value: " + map.get("status").toString());
+//               }
+//
+//         );
+        listMaps(queryWrapper).forEach(map -> {
+            switch (map.get("status").toString()){
+                case "0":
+                    home.setNotFiled((Long) map.get("number"));
+                    break;
+                case "1":
+                    home.setNotAudit((Long) map.get("number"));
+                    break;
+                case "2":
+                    home.setPass((Long) map.get("number"));
+                    break;
+                case "3":
+                    home.setNotPass((Long) map.get("number"));
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + map.get("status").toString());
+            }
         });
 
-        return  maps;
+
+
+        return  home;
     }
 
 

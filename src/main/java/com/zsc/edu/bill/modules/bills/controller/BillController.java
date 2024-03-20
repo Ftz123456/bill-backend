@@ -5,6 +5,7 @@ import com.zsc.edu.bill.framework.security.SecurityUtil;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
 import com.zsc.edu.bill.modules.bills.dto.BillDto;
 import com.zsc.edu.bill.modules.bills.entity.Bill;
+import com.zsc.edu.bill.modules.bills.entity.Home;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
 import com.zsc.edu.bill.modules.bills.service.BillService;
 import lombok.AllArgsConstructor;
@@ -38,9 +39,9 @@ public class BillController {
     /**
      * 首页数据
      * <p>
-     * */
+     */
     @GetMapping("home")
-    public List<Map<String, Object>> Home( BillDto dto){
+    public Home home(BillDto dto){
         return service.getHomes(dto);
     }
 
