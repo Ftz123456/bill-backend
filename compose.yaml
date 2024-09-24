@@ -1,0 +1,9 @@
+services:
+  mysql:
+    image: 'mysql:8.0.35'
+    environment:
+      - 'MYSQL_DATABASE=study'
+      - 'MYSQL_PASSWORD=123123'
+      - 'MYSQL_ROOT_PASSWORD=123123'
+    ports:
+      - '3306:3306'

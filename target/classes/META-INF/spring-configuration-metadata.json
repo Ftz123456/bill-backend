@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "storage",
+      "type": "com.zsc.edu.bill.framework.storage.StorageProperties",
+      "sourceType": "com.zsc.edu.bill.framework.storage.StorageProperties"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
