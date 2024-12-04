@@ -13,6 +13,4 @@ public class Home {
     private Long notAudit =0L;
     private Long pass =0L;
     private Long notPass =0L;
-
-
 }

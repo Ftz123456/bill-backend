@@ -8,6 +8,9 @@ import com.zsc.edu.bill.modules.bills.entity.Bill;
 import com.zsc.edu.bill.modules.bills.entity.Home;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
 
+import java.util.List;
+import java.util.Map;
+
 /**
 * @author fantianzhi
 * @description 针对表【ticket(票据表)】的数据库操作Service
@@ -27,4 +30,5 @@ public interface BillService extends IService<Bill> {
     Page<Bill> auditPage(Page<Bill> page, BillQuery query);
 
     Home getHomes(BillDto dto);
+    Map<String, List<Object>> trendChart();
 }

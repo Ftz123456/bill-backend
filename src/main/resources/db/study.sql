@@ -1,17 +1,17 @@
 /*
- Navicat Premium Data Transfer
+ Navicat Premium Dump SQL
 
- Source Server         : aliyun
+ Source Server         : 腾讯云
  Source Server Type    : MySQL
- Source Server Version : 80200
- Source Host           : 59.110.238.182:3306
+ Source Server Version : 80030 (8.0.30)
+ Source Host           : 106.53.179.133:3306
  Source Schema         : study
 
  Target Server Type    : MySQL
- Target Server Version : 80200
+ Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 25/01/2024 15:05:43
+ Date: 04/12/2024 21:32:17
 */
 
 SET NAMES utf8mb4;
@@ -563,7 +563,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 172, 34, 'admin', '{bcrypt}$2a$10$lwEbMpGYMIcVpuVXIWBSlOO7d085buqONGjTuY4tg3rz84y/xFQXe', '19897785991', 'zsc3456@qq.com', '林艳燕', '1', 'http://dummyimage.com/100x100', '青海省太原市南区阳光小区', b'0', NULL, NULL, '2024-01-11 09:57:48', '2024-01-11 18:31:29', NULL, b'1');
+INSERT INTO `sys_user` VALUES (1, 172, 50, 'admin', '{bcrypt}$2a$10$kAZW1QECY9NgiOoUYVtIcemgnfOvUijyAjZA4tUyHmVfQ06K8CsCK', '19897785991', 'zsc3456@qq.com', '林艳燕', '1', 'http://dummyimage.com/100x100', '青海省太原市南区阳光小区', b'0', NULL, NULL, '2024-01-11 09:57:48', '2024-01-11 18:31:29', NULL, b'1');
 INSERT INTO `sys_user` VALUES (2, 47, 35, 'user', '{bcrypt}$2a$10$R5qaOOGWtRafshnZhp7JH.UNAq5eul2c2CvM.GXreNIwZBMPsKmAy', '18112287692', 'd.fyxpbtmxsg@qq.com', NULL, NULL, NULL, NULL, b'0', NULL, NULL, '2024-01-11 10:48:16', NULL, NULL, b'1');
 INSERT INTO `sys_user` VALUES (3, 47, 34, 'fan', '{bcrypt}$2a$10$VX2qOwjbZxSFhggcXztsAe4AFQrMQoEQuUpLGaf74bbD9ZhrqKu3C', '18112287672', 'd.fyxpb9mxsg@qq.com', NULL, NULL, NULL, NULL, b'0', NULL, NULL, '2024-01-12 12:06:42', '2024-01-15 08:36:28', NULL, b'1');
 INSERT INTO `sys_user` VALUES (4, NULL, 51, '1`1', '{bcrypt}$2a$10$ZDmPG6gqUaN0vsoNS6j70.uA5FKHZE5nRMKZf/6WHfrGgf/q3UJdW', '13502325', '2960203@qq.com', NULL, NULL, NULL, NULL, b'0', NULL, NULL, '2024-01-16 03:52:13', NULL, NULL, b'1');

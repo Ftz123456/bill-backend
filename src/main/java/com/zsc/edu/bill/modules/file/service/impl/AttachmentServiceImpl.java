@@ -22,6 +22,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import jakarta.annotation.PostConstruct;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -86,6 +87,35 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentRepository, Att
         return save(temp, sha1, filename, mimeType, type);
     }
 
+    @Override
+    public Attachment stores(Attachment.Type type, MultipartFile file) throws IOException{
+        if (file.isEmpty()) {
+            throw new StorageFileEmptyException("上传的文件不能为空");
+        }
+
+            String filename = file.getOriginalFilename();
+            if (filename == null || filename.trim().isEmpty()) {
+                throw new IllegalArgumentException("文件名不能为空");
+            }
+
+            MessageDigest digest = DigestUtils.getSha1Digest();
+            digest.update(filename.getBytes(StandardCharsets.UTF_8));
+
+            Path temp = tempPath.resolve(String.valueOf(System.nanoTime()));
+            byte[] fileContent = file.getBytes();
+
+            // 使用try-with-resources自动关闭流
+            try (ByteArrayInputStream input = new ByteArrayInputStream(fileContent);
+                 OutputStream output = Files.newOutputStream(temp)) {
+                Tika tika = new Tika();
+                String mimeType = tika.detect(input, filename);
+                digest.update(fileContent);
+                output.write(fileContent);
+                String sha1 = Hex.encodeHexString(digest.digest());
+                return save(temp, sha1, filename, mimeType, type);
+            }
+
+    }
     public Attachment store(Attachment.Type type, File file) throws IOException {
         MessageDigest digest = DigestUtils.getSha1Digest();
         String filename = file.getName();

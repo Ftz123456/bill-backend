@@ -70,7 +70,7 @@ public class SpringSecurityConfig {
 
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/rest/user/me","/api/rest/user/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/rest/user/me","/api/rest/user/register","/api/rest/user/send-email").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/rest/user/login","/api/rest/user/register").permitAll()
                         .requestMatchers("/api/**").authenticated())
                 .addFilterAt(jsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

@@ -1,5 +1,7 @@
 package com.zsc.edu.bill.framework.security;
 
+import com.zsc.edu.bill.exception.ApiException;
+import com.zsc.edu.bill.exception.StateException;
 import com.zsc.edu.bill.modules.system.entity.Authority;
 import com.zsc.edu.bill.modules.system.entity.RoleAuthority;
 import com.zsc.edu.bill.modules.system.entity.User;
@@ -29,6 +31,9 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
     @Transactional(rollbackFor = Exception.class)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.selectByUsername(username);
+        if (!user.getEnabled()) {
+            throw new StateException("用户 '" + username + "' 已被禁用！请联系管理员");
+        }
 
         List<RoleAuthority> roleAuthorities= roleAuthoritiesRepository.selectByRoleId(user.getRoleId());
         user.role.authorities=roleAuthorities.stream()

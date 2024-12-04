@@ -8,9 +8,15 @@ import com.zsc.edu.bill.modules.bills.entity.Bill;
 import com.zsc.edu.bill.modules.bills.entity.Home;
 import com.zsc.edu.bill.modules.bills.query.BillQuery;
 import com.zsc.edu.bill.modules.bills.service.BillService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.jeecgframework.poi.excel.def.NormalExcelConstants;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.view.JeecgEntityExcelView;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
@@ -114,6 +120,24 @@ public class BillController {
         query.setAuditorId(userInfo.getId());
         return service.auditPage(page, query);
     }
-
-
+    //曲线图
+    @GetMapping("trend")
+    public Map<String, List<Object>>  trendChart(){
+        return service.trendChart();
+    }
+    @RequestMapping(value = "/exportXls")
+    public ModelAndView exportXls(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mv = new ModelAndView(new JeecgEntityExcelView());
+        List<Bill> pageList = service.list();
+        //导出文件名称
+        mv.addObject(NormalExcelConstants.FILE_NAME,"导出Excel文件名字");
+        //注解对象Class
+        mv.addObject(NormalExcelConstants.CLASS,Bill.class);
+        //自定义导出字段 		   mv.addObject(NormalExcelConstants.EXPORT_FIELDS,"name,keyWord,punchTime");
+        //自定义表格参数
+        mv.addObject(NormalExcelConstants.PARAMS,new ExportParams("自定义导出Excel模板内容标题", "自定义Sheet名字"));
+        //导出数据列表
+        mv.addObject(NormalExcelConstants.DATA_LIST,pageList);
+        return mv;
+    }
 }

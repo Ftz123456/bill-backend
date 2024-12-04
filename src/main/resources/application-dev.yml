@@ -4,12 +4,13 @@ server:
 mybatis-plus:
   type-aliases-package:  com.zsc.edu.bill.modules.*.entity
   mapper-locations: classpath:mappers/*.xml
+  type-handlers-package: com.zsc.edu.bill.framework.mybatisplus
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 spring:
   datasource:
-    url: jdbc:mysql://59.110.238.182:3306/study?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&characterEncoding=utf8&serverTimezone=Hongkong
+    url: jdbc:mysql://106.53.179.133:3306/study?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&characterEncoding=utf8&serverTimezone=Hongkong
     username: root
     password: 2002
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,7 +18,24 @@ spring:
     multipart:
       max-file-size: 40MB
       max-request-size: 40MB
-
+  mail:
+    # 配置 SMTP 服务器地址
+    host: smtp.qq.com
+    # 发送者邮箱
+    username: 2179732328@qq.com
+    # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
+    password: mabpnbtqqezjdjde
+    # 端口号465或587
+    port: 587
+    # 默认的邮件编码为UTF-8
+    default-encoding: UTF-8
+    # 配置SSL 加密工厂
+    properties:
+      mail:
+        smtp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        #表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+        debug: true
 storage:
   attachment: ./storage/attachment
   temp: ./storage/temp

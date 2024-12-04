@@ -1,27 +1,28 @@
 package com.zsc.edu.bill.modules.system.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsc.edu.bill.exception.ConstraintException;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
-import com.zsc.edu.bill.modules.system.dto.*;
+import com.zsc.edu.bill.modules.system.dto.UserCreateDto;
+import com.zsc.edu.bill.modules.system.dto.UserSelfUpdateDto;
+import com.zsc.edu.bill.modules.system.dto.UserSelfUpdatePasswordDto;
+import com.zsc.edu.bill.modules.system.dto.UserUpdateDto;
 import com.zsc.edu.bill.modules.system.entity.Dept;
 import com.zsc.edu.bill.modules.system.entity.Role;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.zsc.edu.bill.modules.system.query.UserQuery;
 import com.zsc.edu.bill.modules.system.repo.UserRepository;
 import com.zsc.edu.bill.modules.system.service.UserService;
+import com.zsc.edu.bill.modules.system.utils.sendMail;
 import com.zsc.edu.bill.modules.system.vo.UserVo;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -38,6 +39,10 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
     private final PasswordEncoder passwordEncoder;
     private final RoleServiceImpl roleService;
     private final DeptServiceImpl deptService;
+    private final sendMail send;
+
+
+
 
 
     @Override
@@ -96,7 +101,11 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
 
     @Override
     public Boolean register(UserCreateDto dto) {
+        if (dto.getCode()!=send.getRandomCode()||dto.getCode()==' '){
+            throw new ConstraintException("code", dto.getCode(), "验证码错误");
+        }
         User user = new User();
+
         BeanUtils.copyProperties(dto, user);
         if (count(new LambdaQueryWrapper<User>().eq(User::getPhone, dto.getPhone())) > 0) {
             throw new ConstraintException("phone", dto.phone, "手机号已存在");
@@ -110,6 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
         }else {
             user.setRoleId(dto.getRoleId());
         }
+
         /**
          * 如果没有传入部门id，则默认为普通用户部门
          * */
@@ -123,6 +133,12 @@ public class UserServiceImpl extends ServiceImpl<UserRepository, User> implement
     public UserVo detail(Long id) {
 
         return this.baseMapper.detail(id);
+    }
+
+    @Override
+    public String sendEmail(String email) {
+      send.sendEmailMessage(email);
+        return "发送成功";
     }
 
 

@@ -28,10 +28,24 @@ public class UserDetailsImpl implements UserDetails {
     public String username;
     public String password;
     public Boolean enabled;
+    public String nickName ;
 
     public Dept dept;
     public Role role;
     public Set<Authority> authorities;
+
+    public UserDetailsImpl(Long id, String username, String password, String nickName, Boolean enabled, Dept dept, Role role, Set<Authority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.nickName = nickName;
+        this.dept = dept;
+        this.role = role;
+        this.authorities = authorities;
+
+
+    }
 
 
     public static UserDetailsImpl from(User user) {
@@ -39,10 +53,12 @@ public class UserDetailsImpl implements UserDetails {
                 user.id,
                 user.username,
                 user.password,
+                user.nickName,
                 user.enabled,
                 user.dept,
                 user.role,
                 user.role.authorities
+
         );
     }
 

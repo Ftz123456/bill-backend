@@ -74,5 +74,9 @@ public class UserCreateDto {
      * 备注说明
      */
     public String remark;
+    /**
+     * 验证码
+     */
+    public Integer code;
 
 }

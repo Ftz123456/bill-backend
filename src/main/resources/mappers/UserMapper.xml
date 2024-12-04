@@ -13,6 +13,7 @@
         <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="address" jdbcType="VARCHAR" property="address"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="enabled" jdbcType="BIT" property="enabled"/>
         <collection property="role" ofType="com.zsc.edu.bill.modules.system.entity.Role">
             <id column="id" jdbcType="BIGINT" property="id"/>
             <result column="name" jdbcType="VARCHAR" property="name"/>

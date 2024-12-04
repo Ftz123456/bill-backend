@@ -1,14 +1,15 @@
 package com.zsc.edu.bill.modules.system.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zsc.edu.bill.modules.system.dto.RoleDto;
 import com.zsc.edu.bill.modules.system.entity.Role;
 import com.zsc.edu.bill.modules.system.mapper.RoleMapper;
+import com.zsc.edu.bill.modules.system.query.RoleQuery;
 import com.zsc.edu.bill.modules.system.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 /**
  * 角色Controller
@@ -32,8 +33,8 @@ public class RoleController {
      */
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_QUERY')")
-    public Collection<Role> list() {
-        return service.list();
+    public Page<Role> query(RoleQuery query, Page<Role> page) {
+        return service.page(page, query.wrapper());
     }
 
     /**

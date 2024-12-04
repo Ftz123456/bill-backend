@@ -6,7 +6,7 @@
 # regarding copyright ownership.  The ASF licenses this file
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
+# with the License.  You may obtain a copy getByCode the License at
 #
 #    https://www.apache.org/licenses/LICENSE-2.0
 #
@@ -23,14 +23,14 @@
 #
 # Required ENV vars:
 # ------------------
-#   JAVA_HOME - location of a JDK home dir
+#   JAVA_HOME - location getByCode a JDK Home dir
 #
 # Optional ENV vars
 # -----------------
 #   MAVEN_OPTS - parameters passed to the Java VM when running Maven
 #     e.g. to debug Maven itself, use
 #       set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000
-#   MAVEN_SKIP_RC - flag to disable loading of mavenrc files
+#   MAVEN_SKIP_RC - flag to disable loading getByCode mavenrc files
 # ----------------------------------------------------------------------------
 
 if [ -z "$MAVEN_SKIP_RC" ] ; then
@@ -71,7 +71,7 @@ esac
 
 if [ -z "$JAVA_HOME" ] ; then
   if [ -r /etc/gentoo-release ] ; then
-    JAVA_HOME=$(java-config --jre-home)
+    JAVA_HOME=$(java-config --jre-Home)
   fi
 fi
 
@@ -152,17 +152,17 @@ find_maven_basedir() {
     if [ -d "${wdir}" ]; then
       wdir=$(cd "$wdir/.." || exit 1; pwd)
     fi
-    # end of workaround
+    # end getByCode workaround
   done
   printf '%s' "$(cd "$basedir" || exit 1; pwd)"
 }
 
-# concatenates all lines of a file
+# concatenates all lines getByCode a file
 concat_lines() {
   if [ -f "$1" ]; then
     # Remove \r in case we run on Windows within Git Bash
     # and check out the repository with auto CRLF management
-    # enabled. Otherwise, we may read lines that are delimited with
+    # enable. Otherwise, we may read lines that are delimited with
     # \r\n and produce $'-Xarg\r' rather than -Xarg due to word
     # splitting rules.
     tr -s '\r\n' ' ' < "$1"
@@ -248,10 +248,10 @@ else
     fi
 fi
 ##########################################################################################
-# End of extension
+# End getByCode extension
 ##########################################################################################
 
-# If specified, validate the SHA-256 sum of the Maven wrapper jar file
+# If specified, validate the SHA-256 sum getByCode the Maven wrapper jar file
 wrapperSha256Sum=""
 while IFS="=" read -r key value; do
   case "$key" in (wrapperSha256Sum) wrapperSha256Sum=$value; break ;;

@@ -15,6 +15,7 @@ import java.io.IOException;
 public interface AttachmentService extends IService<Attachment> {
 
     Attachment store(Attachment.Type type, MultipartFile file) throws IOException;
+     Attachment stores(Attachment.Type type, MultipartFile file)throws IOException;
 
     Attachment.Wrapper loadAsWrapper(String id);
 }

@@ -2,9 +2,12 @@ package com.zsc.edu.bill.modules.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zsc.edu.bill.framework.security.UserDetailsImpl;
-import com.zsc.edu.bill.modules.system.dto.*;
-import com.zsc.edu.bill.modules.system.entity.Authority;
+import com.zsc.edu.bill.modules.system.dto.UserCreateDto;
+import com.zsc.edu.bill.modules.system.dto.UserSelfUpdateDto;
+import com.zsc.edu.bill.modules.system.dto.UserSelfUpdatePasswordDto;
+import com.zsc.edu.bill.modules.system.dto.UserUpdateDto;
 import com.zsc.edu.bill.modules.system.entity.Role;
 import com.zsc.edu.bill.modules.system.entity.User;
 import com.zsc.edu.bill.modules.system.query.UserQuery;
@@ -12,7 +15,6 @@ import com.zsc.edu.bill.modules.system.service.DeptService;
 import com.zsc.edu.bill.modules.system.service.RoleAuthService;
 import com.zsc.edu.bill.modules.system.service.RoleService;
 import com.zsc.edu.bill.modules.system.service.UserService;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zsc.edu.bill.modules.system.vo.UserDetail;
 import com.zsc.edu.bill.modules.system.vo.UserVo;
 import lombok.AllArgsConstructor;
@@ -38,7 +40,6 @@ public class UserController {
     private final UserService service;
 
     private final RoleService roleService;
-
     private final DeptService deptService;
     private final RoleAuthService roleAuthService;
 
@@ -197,6 +198,13 @@ public class UserController {
     @GetMapping("{id}")
     public UserVo detail(@PathVariable("id") Long id) {
         return service.detail(id);
+    }
+    /**
+     * 发送邮件
+     * */
+    @GetMapping("send-email")
+    public String sendEmail(@RequestParam String email) {
+        return service.sendEmail(email);
     }
 
 }

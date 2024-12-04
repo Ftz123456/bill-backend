@@ -1,6 +1,7 @@
 package com.zsc.edu.bill.modules.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsc.edu.bill.exception.ConstraintException;
 import com.zsc.edu.bill.modules.system.dto.DeptDto;
 import com.zsc.edu.bill.modules.system.entity.Dept;
@@ -11,7 +12,7 @@ import com.zsc.edu.bill.modules.system.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.Collection;
+
 /**
  * 部门Controller
  *
@@ -33,8 +34,8 @@ public class DeptController {
      */
     @GetMapping
     @PreAuthorize("hasAuthority('DEPT_QUERY')")
-    public Collection<Dept> list(DeptQuery query) {
-        return service.list(query.wrapper());
+    public Page<Dept> query(DeptQuery query, Page<Dept> page) {
+        return service.page(page, query.wrapper());
     }
 
     /**

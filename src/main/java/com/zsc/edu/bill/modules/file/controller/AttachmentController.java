@@ -13,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 附件Controller
@@ -35,7 +39,7 @@ public class AttachmentController {
      */
     @PostMapping()
     public Attachment upload(
-        @RequestParam(required = false) Attachment.Type type,
+        @RequestParam(required = false, defaultValue = "其他") Attachment.Type type,
         @RequestParam("file") MultipartFile file
     ) {
         try {
@@ -75,6 +79,18 @@ public class AttachmentController {
     public Attachment getAttachmentInfo(@PathVariable("id") String id) {
         return service.getById(id);
     }
-
+    @PostMapping("uploadMultipleFiles")
+    public List<Attachment> uploadMultipleFiles(
+            @RequestParam(defaultValue = "其他") Attachment.Type type,
+            @RequestParam("files") List<MultipartFile> files
+    ) throws IOException {
+        List<Attachment> attachments = new ArrayList<>();
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                attachments.add(service.stores(type, file));
+            }
+        }
+        return attachments;
+    }
 
 }

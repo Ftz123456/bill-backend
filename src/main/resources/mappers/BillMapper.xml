@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="com.zsc.edu.bill.modules.bills.entity.Bill">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="body" column="body" jdbcType="VARCHAR"/>
         <result property="money" column="money" jdbcType="DECIMAL"/>
@@ -19,7 +20,7 @@
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
-        <result property="attachId" column="attach_id" jdbcType="VARCHAR"/>
+        <result property="attachId" column="attach_id" jdbcType="VARCHAR" typeHandler="com.zsc.edu.bill.framework.mybatisplus.ListTypeHandler"/>
         <result property="auditorId" column="auditor_id" jdbcType="BIGINT"/>
         <result property="comment" column="audit_time" jdbcType="VARCHAR"/>
     </resultMap>

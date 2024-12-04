@@ -40,4 +40,5 @@ public interface UserService extends IService<User> {
     Boolean register(UserCreateDto dto);
 
     UserVo detail(Long id);
+    String sendEmail(String email);
 }

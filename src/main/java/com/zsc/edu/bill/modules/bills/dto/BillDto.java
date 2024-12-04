@@ -1,11 +1,14 @@
 package com.zsc.edu.bill.modules.bills.dto;
 
+import com.zsc.edu.bill.modules.bills.entity.Bill;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author yao
@@ -19,6 +22,10 @@ public class BillDto {
      * */
     @NotNull
     private Long userId;
+    /**
+     * 用户名字
+     * */
+    private String userName;
 
     /**
      * 票据标题
@@ -34,15 +41,15 @@ public class BillDto {
      * 金额 票据金额
      */
     private BigDecimal money;
-    /**
-     * 状态 0:未提交，草稿;1:未审核；2:审核通过；3:退回、审核未通过
-     */
-    private String status;
+//    /**
+//     * 状态 0:未提交，草稿;1:未审核；2:审核通过；3:退回、审核未通过
+//     */
+//    private String status;
 
     /**
      * 票据类型
      */
-    private String type;
+    private Bill.billType type;
 
     /**
      * 联系方式email邮箱
@@ -56,11 +63,11 @@ public class BillDto {
     /**
      * 附件id
      */
-    private String attachId;
+    private ArrayList<String> attachId;
     /**
      * 审核人id
      */
-    @NotNull
+
     private Long auditorId;
     /**
      * 提交状态 true/false
